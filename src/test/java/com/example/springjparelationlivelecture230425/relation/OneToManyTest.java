@@ -46,9 +46,9 @@ public class OneToManyTest {
         System.out.println("food.getName() = " + food.getName());
 
         // 해당 음식을 주문한 고객 정보 조회
-        List<User> userList = food.getUserList();
-        for (User user : userList) {
-            System.out.println("user.getName() = " + user.getName());
-        }
+//        List<User> userList = food.getUserList();
+//        for (User user : userList) {
+//            System.out.println("user.getName() = " + user.getName());
+//        }
     }
 }
