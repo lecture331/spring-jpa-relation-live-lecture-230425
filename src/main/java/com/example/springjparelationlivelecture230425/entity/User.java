@@ -17,15 +17,11 @@ public class User {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "userList")
-    private List<Food> foodList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Order> orderList = new ArrayList<>();
 
     public User(String name) {
         this.name = name;
     }
 
-    public void addFoodList(Food food) {
-        this.foodList.add(food);
-        food.addUserList(this);
-    }
 }

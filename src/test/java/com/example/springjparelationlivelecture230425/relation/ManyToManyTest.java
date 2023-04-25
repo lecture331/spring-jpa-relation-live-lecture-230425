@@ -35,8 +35,8 @@ public class ManyToManyTest {
         User user2 = new User("Robbert");
         userRepository.save(user2);
 
-        food.addUserList(user);
-        food.addUserList(user2);
+//        food.addUserList(user);
+//        food.addUserList(user2);
     }
 
     @Test
@@ -53,8 +53,8 @@ public class ManyToManyTest {
         userRepository.save(user2);
 
         // User Entity 를 통해 Food Entity 를 참조 해보겠습니다.
-        user.addFoodList(food);
-        user2.addFoodList(food);
+//        user.addFoodList(food);
+//        user2.addFoodList(food);
     }
 
     @Test
@@ -65,10 +65,10 @@ public class ManyToManyTest {
         System.out.println("food.getName() = " + food.getName());
 
         // 음식을 주문한 고객 정보 조회
-        List<User> userList = food.getUserList();
-        for (User user : userList) {
-            System.out.println("user.getName() = " + user.getName());
-        }
+//        List<User> userList = food.getUserList();
+//        for (User user : userList) {
+//            System.out.println("user.getName() = " + user.getName());
+//        }
     }
 
     @Test
@@ -79,11 +79,11 @@ public class ManyToManyTest {
         System.out.println("user.getName() = " + user.getName());
 
         // 해당 고객이 주문한 음식 정보 조회
-        List<Food> foodList = user.getFoodList();
-        for (Food food : foodList) {
-            System.out.println("food.getName() = " + food.getName());
-            System.out.println("food.getPrice() = " + food.getPrice());
-        }
+//        List<Food> foodList = user.getFoodList();
+//        for (Food food : foodList) {
+//            System.out.println("food.getName() = " + food.getName());
+//            System.out.println("food.getPrice() = " + food.getPrice());
+//        }
     }
 
 }
