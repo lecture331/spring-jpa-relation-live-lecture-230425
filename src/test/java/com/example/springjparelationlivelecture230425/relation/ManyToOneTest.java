@@ -32,8 +32,8 @@ public class ManyToOneTest {
         User user = new User("Robbie");
         userRepository.save(user);
 
-        food.setUser(user);
-        food2.setUser(user);
+//        food.setUser(user);
+//        food2.setUser(user);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ManyToOneTest {
         userRepository.save(user);
 
         // User Entity 를 통해 Food Entity 를 참조해보겠습니다.
-        user.addFoodList(food);
-        user.addFoodList(food2);
+//        user.addFoodList(food);
+//        user.addFoodList(food2);
     }
 }

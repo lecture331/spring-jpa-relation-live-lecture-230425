@@ -11,9 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @SpringBootTest
-public class OneToOneTest {
+public class OneToManyTest {
 
     @Autowired
     FoodRepository foodRepository;
@@ -21,32 +23,32 @@ public class OneToOneTest {
     UserRepository userRepository;
 
     @Test
-    @Rollback(value = false) // 테스트에서는 @Transactional 에 의해 자동 rollback 됨으로 false 설정해준다.
-    @DisplayName("1대1 단방향 테스트")
+    @Rollback(value = false)
+    @DisplayName("1대N 단방향 테스트")
     void test1() {
-        Food food = new Food("후라이드 치킨", 15000);
-        foodRepository.save(food);
-
         User user = new User("Robbie");
         userRepository.save(user);
 
-        // 외래 키의 주인인 Food Entity user 필드에 user 객체를 추가해 줍니다.
-//        food.setUser(user);
+        User user2 = new User("Robert");
+        userRepository.save(user2);
+
+        Food food = new Food("후라이드 치킨", 15000);
+        foodRepository.save(food);
+
+        food.addUserList(user);
+        food.addUserList(user2);
     }
 
     @Test
-    @Rollback(value = false)
-    @DisplayName("1대1 양방향 테스트")
+    @DisplayName("1대N 조회 테스트")
     void test2() {
-        Food food = new Food("후라이드 치킨", 15000);
-        foodRepository.save(food);
+        Food food = foodRepository.findById(1L).orElseThrow(NullPointerException::new);
+        System.out.println("food.getName() = " + food.getName());
 
-        User user = new User("Robbie");
-        userRepository.save(user);
-
-        // 이번에는 반대로 외래 키의 주인이 아닌 곳에서 참조해봅니다.
-//        user.setFood(food);
-
+        // 해당 음식을 주문한 고객 정보 조회
+        List<User> userList = food.getUserList();
+        for (User user : userList) {
+            System.out.println("user.getName() = " + user.getName());
+        }
     }
-
 }
