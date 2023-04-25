@@ -28,4 +28,8 @@ public class Food {
         this.price = price;
     }
 
+    public void addUserList(User user) {
+        this.userList.add(user);
+    }
+
 }

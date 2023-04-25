@@ -15,7 +15,7 @@ import java.util.List;
 
 @Transactional
 @SpringBootTest
-public class OneToManyTest {
+public class ManyToManyTest {
 
     @Autowired
     FoodRepository foodRepository;
@@ -24,31 +24,66 @@ public class OneToManyTest {
 
     @Test
     @Rollback(value = false)
-    @DisplayName("1대N 단방향 테스트")
+    @DisplayName("N대M 단방향 테스트")
     void test1() {
-        User user = new User("Robbie");
-        userRepository.save(user);
-
-        User user2 = new User("Robert");
-        userRepository.save(user2);
-
         Food food = new Food("후라이드 치킨", 15000);
         foodRepository.save(food);
 
-//        food.addUserList(user);
-//        food.addUserList(user2);
+        User user = new User("Robbie");
+        userRepository.save(user);
+
+        User user2 = new User("Robbert");
+        userRepository.save(user2);
+
+        food.addUserList(user);
+        food.addUserList(user2);
     }
 
     @Test
-    @DisplayName("1대N 조회 테스트")
+    @Rollback(value = false)
+    @DisplayName("N대M 양방향 테스트")
     void test2() {
+        Food food = new Food("후라이드 치킨", 15000);
+        foodRepository.save(food);
+
+        User user = new User("Robbie");
+        userRepository.save(user);
+
+        User user2 = new User("Robbert");
+        userRepository.save(user2);
+
+        // User Entity 를 통해 Food Entity 를 참조 해보겠습니다.
+        user.addFoodList(food);
+        user2.addFoodList(food);
+    }
+
+    @Test
+    @DisplayName("N대M 조회 : Food 기준 user 정보 조회")
+    void test3() {
         Food food = foodRepository.findById(1L).orElseThrow(NullPointerException::new);
+        // 음식 정보 조회
         System.out.println("food.getName() = " + food.getName());
 
-        // 해당 음식을 주문한 고객 정보 조회
+        // 음식을 주문한 고객 정보 조회
         List<User> userList = food.getUserList();
         for (User user : userList) {
             System.out.println("user.getName() = " + user.getName());
         }
     }
+
+    @Test
+    @DisplayName("N대M 조회 : User 기준 food 정보 조회")
+    void test4() {
+        User user = userRepository.findById(1L).orElseThrow(NullPointerException::new);
+        // 고객 정보 조회
+        System.out.println("user.getName() = " + user.getName());
+
+        // 해당 고객이 주문한 음식 정보 조회
+        List<Food> foodList = user.getFoodList();
+        for (Food food : foodList) {
+            System.out.println("food.getName() = " + food.getName());
+            System.out.println("food.getPrice() = " + food.getPrice());
+        }
+    }
+
 }
